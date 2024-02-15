@@ -1,0 +1,111 @@
+class Vehicle {
+    String type;
+    double rentalRate;
+
+    public Vehicle(String type, double rentalRate) {
+        this.type = type;
+        this.rentalRate = rentalRate;
+    }
+}
+
+class Car extends Vehicle {
+    String make;
+    String model;
+
+    public Car(String make, String model, double rentalRate) {
+        super("Car", rentalRate);
+        this.make = make;
+        this.model = model;
+    }
+}
+
+class Bike extends Vehicle {
+    String brand;
+
+    public Bike(String brand, double rentalRate) {
+        super("Bike", rentalRate);
+        this.brand = brand;
+    }
+}
+
+class Scooter extends Vehicle {
+    String brand;
+
+    public Scooter(String brand, double rentalRate) {
+        super("Scooter", rentalRate);
+        this.brand = brand;
+    }
+}
+
+class VehicleRentalService {
+    List<Car> availableCars;
+    List<Bike> availableBikes;
+    List<Scooter> availableScooters;
+
+    public VehicleRentalService() {
+        availableCars = new ArrayList<>();
+        availableBikes = new ArrayList<>();
+        availableScooters = new ArrayList<>();
+    }
+
+    public void addVehicle(Vehicle vehicle) {
+        if (vehicle instanceof Car) {
+            availableCars.add((Car) vehicle);
+        } else if (vehicle instanceof Bike) {
+            availableBikes.add((Bike) vehicle);
+        } else if (vehicle instanceof Scooter) {
+            availableScooters.add((Scooter) vehicle);
+        }
+    }
+
+    public String rentVehicle(String vehicleType, int rentalDuration, boolean insuranceIncluded) {
+        Vehicle vehicle;
+        switch (vehicleType) {
+            case "Car":
+                if (availableCars.isEmpty()) {
+                    return "No cars available for rent at the moment";
+                }
+                vehicle = availableCars.remove(0);
+                break;
+            case "Bike":
+                if (availableBikes.isEmpty()) {
+                    return "No bikes available for rent at the moment";
+                }
+                vehicle = availableBikes.remove(0);
+                break;
+            case "Scooter":
+                if (availableScooters.isEmpty()) {
+                    return "No scooters available for rent at the moment";
+                }
+                vehicle = availableScooters.remove(0);
+                break;
+            default:
+                return "Invalid vehicle type";
+        }
+
+        double rentalCost = vehicle.rentalRate * rentalDuration;
+        if (insuranceIncluded) {
+            rentalCost += 50; // Assuming a flat fee for insurance
+        }
+
+        return "You have rented a " + vehicle.type + " for " + rentalDuration + " days. Total cost is $" + rentalCost;
+    }
+}
+
+
+public class Main {
+    public static void main(String[] args) {
+        Car car1 = new Car("Toyota", "Corolla", 50);
+        Bike bike1 = new Bike("Honda", 20);
+        Scooter scooter1 = new Scooter("Vespa", 30);
+
+        VehicleRentalService rentalService = new VehicleRentalService();
+        rentalService.addVehicle(car1);
+        rentalService.addVehicle(bike1);
+        rentalService.addVehicle(scooter1);
+
+        System.out.println(rentalService.rentVehicle("Car", 3, true));
+        System.out.println(rentalService.rentVehicle("Bike", 5, false));
+        System.out.println(rentalService.rentVehicle("Scooter", 2, true));
+    }
+}
