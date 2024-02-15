@@ -1,0 +1,62 @@
+// Interface Implementation
+interface Amphibious {
+    void dock();
+    void launch();
+}
+
+interface AirVehicle {
+    void fly();
+}
+
+class AmphibiousPlane implements Amphibious, AirVehicle {
+    @Override
+    public void dock() {
+        System.out.println("Amphibious Plane docking.");
+    }
+
+    @Override
+    public void launch() {
+        System.out.println("Amphibious Plane launching.");
+    }
+
+    @Override
+    public void fly() {
+        System.out.println("Amphibious Plane flying.");
+    }
+}
+
+// Abstract Class Extension
+abstract class ElectricVehicle {
+    abstract void batteryType();
+}
+
+class ElectricCar extends ElectricVehicle {
+    @Override
+    void batteryType() {
+        System.out.println("Electric Car uses Lithium-ion batteries.");
+    }
+}
+
+class ElectricBike extends ElectricVehicle {
+    @Override
+    void batteryType() {
+        System.out.println("Electric Bike uses Lithium-ion batteries.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Testing Interface Implementation
+        AmphibiousPlane amphibiousPlane = new AmphibiousPlane();
+        amphibiousPlane.dock();
+        amphibiousPlane.launch();
+        amphibiousPlane.fly();
+
+        // Testing Abstract Class Extension
+        ElectricCar electricCar = new ElectricCar();
+        electricCar.batteryType();
+
+        ElectricBike electricBike = new ElectricBike();
+        electricBike.batteryType();
+    }
+}
